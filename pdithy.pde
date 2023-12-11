@@ -17,8 +17,9 @@ int saveCounter = 0;
 
 void settings() {
 
+  //pixelDensity(pixelDensity);
   
-  String path = sketchPath() + "/../_sourceImages/scenes B/";//
+  String path = sketchPath() + "/../_sourceImages/scenes B/single/";//
   File folder = new File(path);
   File[] listOfFiles = folder.listFiles(); //<>//
   ArrayList<String> filenames = new ArrayList<String>();
@@ -66,6 +67,7 @@ void setup() {
 
 
 void draw() {
+  
   background(0);
   //println(oversampling);
   int thisx = (width  - imgs[currentImage].width ) / 2;
@@ -81,7 +83,7 @@ void keyPressed() {
   if( key == 'S' ) {
     println("saving frame " + saveCounter);
     saveCounter++;
-    saveFrame("../out/pdityh01/pdithy_"+saveCounter+".png");
+    saveFrame("../out/pdityh_procedural/pdithy_"+saveCounter+".png");
   }
   
   if ( key == 's' ) showDither = !showDither;
@@ -104,6 +106,10 @@ void keyPressed() {
   }
   if( key == '5' ) {
     kernel = new monocolKernel();
+    //setup();
+  }
+  if( key == '6' ) {
+    kernel = new RandoKernel();
     //setup();
   }
   
