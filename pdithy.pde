@@ -1,8 +1,11 @@
-
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 
 PImage[] imgs;
-PGraphics[] pgs;
+//PGraphics[] pgs;
 boolean showDither = false;
+boolean movieMode = false;
 
 int maxwidth = 0;
 int maxheight = 0;
@@ -19,32 +22,12 @@ void settings() {
 
   //pixelDensity(pixelDensity);
   
-  String path = sketchPath() + "/../_sourceImages/scenes B/single/";//
-  File folder = new File(path);
-  File[] listOfFiles = folder.listFiles(); //<>//
-  ArrayList<String> filenames = new ArrayList<String>();
-
-  for (int i = 0; i < listOfFiles.length; i++) {
-    if (listOfFiles[i].isFile()) {
-      String f = listOfFiles[i].getName();
-      System.out.println("File " + f);
-      
-      if( f.endsWith(".jpg") || f.endsWith(".JPG") || f.endsWith(".png") )
-      filenames.add( f );
-      
-    } else if (listOfFiles[i].isDirectory()) {
-      System.out.println("Directory " + listOfFiles[i].getName());
-    }
-  }
-
-  imgs= new PImage[filenames.size()];
-  for (int i = 0; i < imgs.length; i++) {
-    imgs[i] = loadImage(path + "/" + filenames.get(i));
-    if( imgs[i].width  > maxwidth ) maxwidth = imgs[i].width;
-    if( imgs[i].height > maxheight ) maxheight = imgs[i].height;
-  }
+  /*
+  //String path = sketchPath() + "/../_sourceImages/scenes B/";//
+  String path = "/Users/pt/Documents/Processing/mWebber09_multAnglesVeins_batch/KT/YBC_StreetScene/imgs";
+  loadImages(path); //<>//
+  */
   
-  pgs = new PGraphics[filenames.size()];
   
   kernel = new bwKernel();
 
@@ -55,7 +38,6 @@ void settings() {
 
 void setup() {
 
-  //kernel = new colKernel();
 
   for (int i = 0; i < imgs.length; i++) {
     
@@ -67,6 +49,8 @@ void setup() {
 
 
 void draw() {
+  
+  if( movieMode && frameCount % 2 == 0 ) currentImage = ++currentImage % imgs.length; 
   
   background(0);
   //println(oversampling);
@@ -120,6 +104,8 @@ void keyPressed() {
   
   if( key == '0' ) oversampling = 1;
   
+  if( key == 'm' ) movieMode = !movieMode;
+  
   if( key == CODED ) {
     if( keyCode == LEFT ) {
       if( currentImage == 0 ) currentImage = imgs.length-1;
@@ -152,4 +138,34 @@ public PImage resizeToScreen( PImage i ) {
     i.resize( (int)(i.width * fact), (int)(i.height* fact));
   }
   return i;
+}
+
+
+public void loadImages( String path ) {
+  
+  File folder = new File(path);
+  File[] listOfFiles = folder.listFiles();
+  ArrayList<String> filenames = new ArrayList<String>();
+
+  for (int i = 0; i < listOfFiles.length; i++) {
+    if (listOfFiles[i].isFile()) {
+      String f = listOfFiles[i].getName();
+      System.out.println("File " + f);
+      
+      if( f.endsWith(".jpg") || f.endsWith(".JPG") || f.endsWith(".png") )
+      filenames.add( f );
+      
+    } else if (listOfFiles[i].isDirectory()) {
+      System.out.println("Directory " + listOfFiles[i].getName());
+    }
+  }
+  
+  Collections.sort(filenames);
+
+  imgs= new PImage[filenames.size()];
+  for (int i = 0; i < imgs.length; i++) {
+    imgs[i] = loadImage(path + "/" + filenames.get(i));
+    if( imgs[i].width  > maxwidth ) maxwidth = imgs[i].width;
+    if( imgs[i].height > maxheight ) maxheight = imgs[i].height;
+  }
 }

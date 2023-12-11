@@ -5,8 +5,8 @@ public class RandoKernel implements dKernel {
   float tipping = 3*255;
   float accumulator = 0;
 
-  int whiteCol = color(255);
-  int blackCol = color(1);
+  int whiteCol = color(56,141,252);
+  int blackCol = color(19,8,64);
   
   private PGraphics dithg;
   
@@ -14,7 +14,7 @@ public class RandoKernel implements dKernel {
   int dirY = 1;
   int posX, posY;
 
-  int iterationsPerFrame = 10000;
+  int iterationsPerFrame = 50000;
   
   int backgroundColor = color(0);
 
