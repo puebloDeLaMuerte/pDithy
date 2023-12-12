@@ -21,9 +21,18 @@ class accuratebwKernel implements dKernel{
     
     for ( int i = 0; i < image.pixels.length; i++) {
 
-      if( lineByLine && i % image.width == 0 ) {
-         accumulator = startValue;
+      if( i % image.width == 0 ) { // on every new line
+        
+        if( lineByLine  ) {
+           accumulator = startValue;
+        }
+        
+        if( randomInit ) {
+          //startValue = random(tipping/2);
+          startValue = i % tipping;
+        }
       }
+       
       
       accumulator += red(image.pixels[i]) + green(image.pixels[i]) + blue(image.pixels[i]);
 

@@ -1,4 +1,12 @@
+float xrot = 0;
+float yrot = 0;
+
 void ddd() {
+  
+  if( autoRotate ) {
+    xrot += 6.1f;
+    yrot += 4.1f;
+  }
   
   pushMatrix();
   
@@ -20,8 +28,8 @@ void ddd() {
             0, -0.5, -0.5, // Direction
             PI / 2, 2); // Angle, concentration
   
-  rotateY(map(mouseX, 0, width, 0, PI));
-  rotateX(map(mouseY, 0, height, 0, PI));
+  rotateY(map(mouseX+xrot, 0, width, 0, PI));
+  rotateX(map(mouseY+yrot, 0, height, 0, PI));
   box(250);
   
   popMatrix();

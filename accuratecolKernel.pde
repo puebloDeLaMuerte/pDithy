@@ -47,6 +47,15 @@ class accuratecolKernel implements dKernel{
          accumulatorG = startValue;
          accumulatorB = startValue;
       }
+      
+      if( i % image.width == 0 ) { // on every new line        
+        if( randomInit ) {
+          //startValue = random(tipping/2);
+          accumulatorR = i % tippingR;
+          accumulatorG = i % tippingG;
+          accumulatorB = i % tippingB;
+        }
+      }
 
       if ( accumulatorR >= tippingR ) {
         currentR = whiteVal;

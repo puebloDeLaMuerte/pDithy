@@ -43,6 +43,15 @@ class colKernel implements dKernel{
          accumulatorB = startValue;
       }
       
+      if( i % image.width == 0 ) { // on every new line        
+        if( randomInit ) {
+          //startValue = random(tipping/2);
+          accumulatorR = i % tippingR;
+          accumulatorG = i % tippingG;
+          accumulatorB = i % tippingB;
+        }
+      }
+      
       accumulatorR += red(image.pixels[i]);
       accumulatorG += green(image.pixels[i]);
       accumulatorB += blue(image.pixels[i]);

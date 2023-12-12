@@ -6,6 +6,8 @@ PImage[] imgs;
 //PGraphics[] pgs;
 boolean showDither = false;
 boolean movieMode = false;
+boolean randomInit = false;
+boolean autoRotate = false;
 
 int maxwidth = 0;
 int maxheight = 0;
@@ -71,7 +73,7 @@ void draw() {
   PImage ditheredImage = kernel.dither(screenImage);
 
   // Clear the screen and draw the dithered image
-  //background(0);
+  background(0);
   
   pushMatrix();
   //resetMatrix();
@@ -79,8 +81,8 @@ void draw() {
   noLights();
   //image(ditheredImage, 0, 0);
   textSize(128);
-  stroke(255);
-  fill(255);
+  //stroke(255);
+  //fill(255);
   text("fooasdfjoasdjfoasdfa",100,100);
   image(ditheredImage,0,0);
   //hint(ENABLE_DEPTH_TEST);
@@ -123,8 +125,17 @@ void keyPressed() {
     //setup();
   }
   
+  if( key == 'r' ) {
+    randomInit = !randomInit;
+  }
+  
   if( key == 'l' ) {
     lineByLine = !lineByLine;
+    //setup();
+  }
+  
+  if( key == 'a' ) {
+    autoRotate = !autoRotate;
     //setup();
   }
   
