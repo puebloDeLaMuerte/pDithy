@@ -18,12 +18,14 @@ public int oversampling = 1;
 
 int saveCounter = 0;
 
+PGraphics p3dCanvas;
+
 void settings() {
 
-  //pixelDensity(pixelDensity);
+  //pixelDensity(2);
   
   /*
-  //String path = sketchPath() + "/../_sourceImages/scenes B/";//
+  //String path = sketchPath() + "/../_sourceImages/scenes B/";// //<>//
   String path = "/Users/pt/Documents/Processing/mWebber09_multAnglesVeins_batch/KT/YBC_StreetScene/imgs";
   loadImages(path); //<>//
   */
@@ -32,33 +34,57 @@ void settings() {
   kernel = new bwKernel();
 
   //size(maxwidth, maxheight, P2D);
-  fullScreen(P2D);
+  fullScreen(P3D);
 }
 
 
 void setup() {
 
-
+      //p3dCanvas = createGraphics(width, height, P3D); // P3D canvas for 3D rendering
+/*
   for (int i = 0; i < imgs.length; i++) {
     
     imgs[i] = resizeToScreen(imgs[i]);  
     //pgs[i] = kernel.dither( imgs[i]);
   }
-  
+  */
 }
 
 
 void draw() {
   
-  if( movieMode && frameCount % 2 == 0 ) currentImage = ++currentImage % imgs.length; 
+  //if( movieMode && frameCount % 2 == 0 ) currentImage = ++currentImage % imgs.length; 
   
   background(0);
-  //println(oversampling);
-  int thisx = (width  - imgs[currentImage].width ) / 2;
-  int thisy = (height - imgs[currentImage].height) / 2;
   
-  if ( showDither ) image( kernel.dither(imgs[currentImage]), thisx, thisy );
-  else image( imgs[currentImage], thisx, thisy) ;
+  ddd();
+  
+  
+  loadPixels();
+  PImage screenImage = createImage(width, height, RGB);
+  screenImage.loadPixels();
+  screenImage.pixels = pixels;
+  screenImage.updatePixels();
+  updatePixels();
+
+  // Apply dithering
+  PImage ditheredImage = kernel.dither(screenImage);
+
+  // Clear the screen and draw the dithered image
+  //background(0);
+  
+  pushMatrix();
+  //resetMatrix();
+  //hint(DISABLE_DEPTH_TEST);
+  noLights();
+  //image(ditheredImage, 0, 0);
+  textSize(128);
+  stroke(255);
+  fill(255);
+  text("fooasdfjoasdjfoasdfa",100,100);
+  image(ditheredImage,0,0);
+  //hint(ENABLE_DEPTH_TEST);
+  popMatrix();
 }
 
 
@@ -114,11 +140,11 @@ void keyPressed() {
     if( keyCode == RIGHT ) {
       currentImage = ++currentImage % imgs.length; 
     }
-    if( keyCode == UP ) {
+    if( keyCode == UP ) { //<>//
       oversampling++; 
     }
     if( keyCode == DOWN ) {
-      if( oversampling <= 2 ) oversampling = 1;
+      if( oversampling <= 2 ) oversampling = 1; //<>//
       else oversampling--;  
     }
   }
